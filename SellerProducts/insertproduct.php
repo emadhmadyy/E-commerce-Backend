@@ -32,8 +32,8 @@ try {
     $key = "EH";
     $decoded = JWT::decode($token, new Key($key, 'HS256'));
     if ($decoded->usertype_id == 1) {
-        $query = $mysqli->prepare('INSERT INTO products (product_name, price) VALUES (?, ?)');
-        $query->bind_param('si',$product_name,$price);
+        $query = $mysqli->prepare('INSERT INTO products (product_name, price,seller_id) VALUES (?, ?,?)');
+        $query->bind_param('sii',$product_name,$price,$decoded->user_id);
         $query->execute();
         $lastProductId = $mysqli->insert_id;
         $query1 = $mysqli->prepare('INSERT INTO productdetails (product_id, description, stock_quantity, release_date) VALUES (?, ?, ?, ?)');

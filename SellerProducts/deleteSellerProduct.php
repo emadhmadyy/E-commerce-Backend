@@ -27,8 +27,8 @@ try {
     $key = "EH";
     $decoded = JWT::decode($token, new Key($key, 'HS256'));
     if ($decoded->usertype_id == 1) {
-        $query = $mysqli->prepare('delete products, productdetails from products JOIN productdetails ON products.product_id = productdetails.product_id where products.product_id = ?');
-        $query->bind_param('i',$product_id);
+        $query = $mysqli->prepare('delete products, productdetails from products JOIN productdetails ON products.product_id = productdetails.product_id where products.product_id = ? and seller_id=?');
+        $query->bind_param('ii',$product_id,$seller_id);
         $query->execute();
         $response = [];
         $response["permissions"] = true;
